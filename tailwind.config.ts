@@ -20,9 +20,22 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				'audiowide': ['Audiowide', 'cursive'],
+				sans: ['Inter', 'sans-serif'],
+				mono: ['Space Grotesk', 'monospace'],
 			},
 			colors: {
+				void: '#0A0A0A',
+				neon: {
+					cyan: '#00F0FF',
+					blue: '#0057FF',
+					purple: '#7B61FF',
+					pink: '#FF0055'
+				},
+				surface: {
+					100: '#111111',
+					200: '#1A1A1A',
+					300: '#222222'
+				},
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -56,16 +69,6 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
-				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

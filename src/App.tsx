@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence, useSpring } from 'framer-motion';
 import {
     Bot,
     Zap,
@@ -58,18 +58,19 @@ const DynamicLogo = () => (
 function ScrollHero() {
     const containerRef = useRef<HTMLElement>(null);
     const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
+    const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
     // Apple-style scale past the camera
-    const scale = useTransform(scrollYProgress, [0, 0.8], [1, 10]);
-    const opacity = useTransform(scrollYProgress, [0, 0.5, 0.8], [1, 1, 0]);
-    const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+    const scale = useTransform(smoothProgress, [0, 0.8], [1, 10]);
+    const opacity = useTransform(smoothProgress, [0, 0.5, 0.8], [1, 1, 0]);
+    const y = useTransform(smoothProgress, [0, 1], ["0%", "50%"]);
 
     return (
         <section ref={containerRef} className="h-[200vh] relative">
             <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center perspective-[1000px]">
                 {/* Abstract Background Energy */}
                 <motion.div
-                    style={{ opacity: useTransform(scrollYProgress, [0, 0.8], [0.5, 0]) }}
+                    style={{ opacity: useTransform(smoothProgress, [0, 0.8], [0.5, 0]) }}
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-conic from-neon-cyan/20 via-transparent to-neon-purple/20 rounded-full blur-[100px] animate-[spin_20s_linear_infinite] pointer-events-none"
                 />
 
@@ -99,16 +100,17 @@ function ScrollHero() {
 function HardwareRevealServices() {
     const containerRef = useRef<HTMLElement>(null);
     const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end end"] });
+    const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
     // Calculate distinct phases for the 3 services
-    const p1 = useTransform(scrollYProgress, [0, 0.2, 0.33, 0.4], [0, 1, 1, 0]);
-    const p2 = useTransform(scrollYProgress, [0.33, 0.5, 0.66, 0.75], [0, 1, 1, 0]);
-    const p3 = useTransform(scrollYProgress, [0.66, 0.85, 1, 1], [0, 1, 1, 1]); // keep last one visible
+    const p1 = useTransform(smoothProgress, [0, 0.2, 0.33, 0.4], [0, 1, 1, 0]);
+    const p2 = useTransform(smoothProgress, [0.33, 0.5, 0.66, 0.75], [0, 1, 1, 0]);
+    const p3 = useTransform(smoothProgress, [0.66, 0.85, 1, 1], [0, 1, 1, 1]); // keep last one visible
 
     // Core visual transformations based on phase
-    const coreRotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
-    const coreColor = useTransform(scrollYProgress, [0, 0.5, 1], ["rgba(255,255,255,0.1)", "rgba(0,240,255,0.3)", "rgba(123,97,255,0.4)"]);
-    const coreScale = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [1, 1.2, 1.5, 1]);
+    const coreRotate = useTransform(smoothProgress, [0, 1], [0, 360]);
+    const coreColor = useTransform(smoothProgress, [0, 0.5, 1], ["rgba(255,255,255,0.1)", "rgba(0,240,255,0.3)", "rgba(123,97,255,0.4)"]);
+    const coreScale = useTransform(smoothProgress, [0, 0.33, 0.66, 1], [1, 1.2, 1.5, 1]);
 
     return (
         <section ref={containerRef} className="h-[400vh] relative bg-void">
@@ -153,7 +155,7 @@ function HardwareRevealServices() {
                             rotate: coreRotate,
                             backgroundColor: coreColor,
                             scale: coreScale,
-                            boxShadow: useTransform(scrollYProgress, [0, 0.5, 1], [
+                            boxShadow: useTransform(smoothProgress, [0, 0.5, 1], [
                                 "0 0 40px rgba(255,255,255,0.05)",
                                 "0 0 80px rgba(0,240,255,0.2)",
                                 "0 0 100px rgba(123,97,255,0.3)"
@@ -163,7 +165,7 @@ function HardwareRevealServices() {
                     >
                         {/* Inner Ring */}
                         <motion.div
-                            style={{ rotate: useTransform(scrollYProgress, [0, 1], [0, -720]) }}
+                            style={{ rotate: useTransform(smoothProgress, [0, 1], [0, -720]) }}
                             className="w-[80%] h-[80%] border border-dashed border-white/30 rounded-full flex items-center justify-center"
                         >
                             {/* Core */}
@@ -180,7 +182,7 @@ function HardwareRevealServices() {
 
                     {/* Connection Lines rendered behind the core */}
                     <motion.div
-                        style={{ opacity: useTransform(scrollYProgress, [0, 0.4], [0, 1]) }}
+                        style={{ opacity: useTransform(smoothProgress, [0, 0.4], [0, 1]) }}
                         className="absolute top-1/2 right-[50%] md:right-0 w-[50vw] h-[2px] bg-gradient-to-r from-neon-cyan/50 to-transparent -translate-y-1/2 -z-10 blur-sm"
                     />
                 </div>
@@ -192,9 +194,10 @@ function HardwareRevealServices() {
 function HorizontalScrollUseCases() {
     const targetRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({ target: targetRef });
+    const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
     // Transform vertical scroll into horizontal translation
-    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-66.66%"]);
+    const x = useTransform(smoothProgress, [0, 1], ["0%", "-66.66%"]);
 
     const cases = [
         { role: "Founders & Execs", metric: "15h/wk saved", details: "Automate lead capture, generate custom proposals instantly via LLMs, trigger follow-ups, and auto-populate growth reporting daily.", num: "01" },

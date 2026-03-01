@@ -1,6 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
-import { Zap } from 'lucide-react';
 import { cn } from '../lib/utils';
 import DynamicLogo from './DynamicLogo';
 
@@ -48,13 +47,6 @@ export default function Layout() {
                         ))}
                     </div>
 
-                    {/* CTA */}
-                    <Link
-                        to="/contact"
-                        className="hidden md:flex items-center justify-center gap-2 bg-white text-void px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-zinc-200 transition-colors shadow-[0_0_15px_rgba(255,255,255,0.2)]"
-                    >
-                        Init Request <Zap size={14} />
-                    </Link>
 
                     {/* Mobile Menu Button */}
                     <MobileMenu currentPath={location.pathname} />
@@ -166,13 +158,7 @@ function MobileMenu({ currentPath }: { currentPath: string }) {
                                 {link.label}
                             </Link>
                         ))}
-                        <Link
-                            to="/contact"
-                            onClick={() => setIsOpen(false)}
-                            className="mt-4 flex items-center justify-center gap-2 bg-white text-void px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider"
-                        >
-                            Init Request <Zap size={14} />
-                        </Link>
+
                     </div>
                 </div>
             )}
